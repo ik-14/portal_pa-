@@ -21,6 +21,8 @@ export const Experience = () => {
     "sevensis2.jpg",
     "sevensis3.jpg",
     "sevensis4.jpg",
+    "shard1.jpg",
+    "shard2.jpg",
   ];
 
   const [active, setActive] = useState(null);
@@ -45,6 +47,19 @@ export const Experience = () => {
     }
   }, [active]);
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setActive(null); // Reset active portal
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown); // Cleanup
+    };
+  }, []);
+
   const portalCount = textures.length; // Updated to 5 portals
   const spacing = 4.5; // Space between portals
   const startX = -((portalCount - 1) * spacing) / 2; // Calculate starting position
@@ -59,9 +74,9 @@ export const Experience = () => {
         minPolarAngle={Math.PI / 3.5}
       />
       <Text color="black" position={[0, 4, 0]} fontSize={0.7}>
-        Double click any portal to go into the picture
+        Double click any portal to go into the picture and ESC to 
       </Text>
-      {textures.slice(0, portalCount).map((texture, index) => (
+      {textures.map((texture, index) => (
         <Portal
           key={index}
           name={texture}
