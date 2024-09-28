@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const UploadImage = () => {
+const UploadImage = ({ onUpload }) => {
   const [file, setFile] = useState(null);
 
   const handleFileChange = (event) => {
@@ -9,16 +9,22 @@ const UploadImage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle file upload logic here
-    console.log(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        onUpload(reader.result); // Pass the data URL to the parent
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
+      setFile(null); // Reset the file input
+    }
   };
 
   const style = {
     position: 'absolute',
     top: '0',
     left: '0',
-    width: '15%',
-    height: '15%',
+    width: '25%',
+    height: '25%',
     zIndex: 1,
     backgroundColor: 'gray',
     display: 'flex',

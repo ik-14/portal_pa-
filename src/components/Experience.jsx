@@ -12,18 +12,7 @@ import { easing } from "maath";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
-export const Experience = () => {
-  const textures = [
-    "battersea1.jpg",
-    "battersea2.jpg",
-    "panorama.jpg",
-    "sevensis1.jpg",
-    "sevensis2.jpg",
-    "sevensis3.jpg",
-    "sevensis4.jpg",
-    "shard1.jpg",
-    "shard2.jpg",
-  ];
+export const Experience = ({textures}) => {
 
   const [active, setActive] = useState(null);
   const controlsRef = useRef();
@@ -60,7 +49,7 @@ export const Experience = () => {
     };
   }, []);
 
-  const portalCount = textures.length; // Updated to 5 portals
+  const portalCount = textures.length;
   const spacing = 4.5; // Space between portals
   const startX = -((portalCount - 1) * spacing) / 2; // Calculate starting position
 
@@ -74,13 +63,13 @@ export const Experience = () => {
         minPolarAngle={Math.PI / 3.5}
       />
       <Text color="black" position={[0, 4, 0]} fontSize={0.7}>
-        Double click any portal to go into the picture and ESC to 
+        Double click any portal to go into the picture and ESC to go back out
       </Text>
       {textures.map((texture, index) => (
         <Portal
           key={index}
           name={texture}
-          texture={`textures/${texture}`} // Use the texture from the array
+          texture={texture} // Use the data URL directly
           position-x={startX + index * spacing}
           active={active}
           setActive={setActive}
