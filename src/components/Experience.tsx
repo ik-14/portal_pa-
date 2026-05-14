@@ -1,20 +1,14 @@
-import {
-  CameraControls,
-  Environment,
-  Preload,
-  Text,
-} from "@react-three/drei";
+import { CameraControls, Preload } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import * as THREE from "three";
 import { Portal } from "./Portal";
 import type { PanoramaImage } from "../types";
 
-// Re-export the ACTION enum for configuring CameraControls inputs
-import { CameraControls as CameraControlsImpl } from "@react-three/drei";
-
 interface ExperienceProps {
   images: PanoramaImage[];
+  active: string | null;
+  setActive: (name: string | null) => void;
 }
 
 /**
@@ -42,8 +36,7 @@ function getGalleryPositions(count: number): [number, number, number][] {
   return positions;
 }
 
-export const Experience = ({ images }: ExperienceProps) => {
-  const [active, setActive] = useState<string | null>(null);
+export const Experience = ({ images, active, setActive }: ExperienceProps) => {
   const controlsRef = useRef<CameraControls>(null);
   const scene = useThree((state) => state.scene);
 
@@ -96,7 +89,6 @@ export const Experience = ({ images }: ExperienceProps) => {
   return (
     <>
       <ambientLight intensity={0.5} />
-      <Environment preset="sunset" />
 
       <CameraControls
         ref={controlsRef}
@@ -114,12 +106,6 @@ export const Experience = ({ images }: ExperienceProps) => {
           three: 0,               // NONE
         }}
       />
-
-      {images.length === 0 && (
-        <Text color="#666" position={[0, 0, 0]} fontSize={0.4}>
-          Loading panoramas...
-        </Text>
-      )}
 
       {images.map((image, index) => (
         <Suspense key={image.name} fallback={null}>

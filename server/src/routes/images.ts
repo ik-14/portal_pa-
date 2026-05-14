@@ -20,6 +20,7 @@ const DEFAULT_IMAGES = [
   "sevensis4.jpg",
   "shard1.jpg",
   "shard2.jpg",
+  "Firefly.jpg"
 ];
 
 /**
